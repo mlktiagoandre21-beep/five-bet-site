@@ -75,4 +75,10 @@ const openDemoGame = gameName => {
 };
 document.querySelectorAll('.play-button').forEach(button => button.addEventListener('click', () => openDemoGame(button.closest('.game-card').querySelector('h3').textContent)));
 const menuToggle = document.querySelector('.menu-toggle');
-menuToggle.addEventListener('click', () => { const open = menuToggle.getAttribute('aria-expanded') === 'true'; menuToggle.setAttribute('aria-expanded', String(!open)); document.querySelector('.main-nav').style.display = open ? '' : 'flex'; document.querySelector('.main-nav').style.position = open ? '' : 'absolute'; document.querySelector('.main-nav').style.top = open ? '' : '81px'; document.querySelector('.main-nav').style.left = open ? '' : '0'; document.querySelector('.main-nav').style.right = open ? '' : '0'; document.querySelector('.main-nav').style.padding = open ? '' : '25px 8vw'; document.querySelector('.main-nav').style.background = open ? '' : '#fbfaf7'; });
+if (menuToggle) {
+  menuToggle.addEventListener('click', () => {
+    const open = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', String(!open));
+    document.querySelector('.main-nav').style.display = open ? '' : 'flex';
+  });
+}
