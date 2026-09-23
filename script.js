@@ -1,8 +1,5 @@
 const backdrop = document.querySelector('.modal-backdrop');
-const authClient = window.supabase.createClient(
-  'https://kystaykkobgfqbnrhqvb.supabase.co',
-  'sb_publishable_boR0XAkdBRTdZvfto2GlYQ_vOEgh8bz'
-);
+const API_BASE_URL = 'https://staging-api.fivebet.com/v1';
 const modalTitle = document.querySelector('#modal-title');
 const modalSubtitle = document.querySelector('.modal-subtitle');
 const modalButtons = document.querySelectorAll('[data-modal]');
@@ -11,6 +8,7 @@ const openModal = (type) => {
   backdrop.hidden = false;
   document.body.style.overflow = 'hidden';
   const login = type === 'login';
+  document.querySelectorAll('.register-field').forEach(field => { field.hidden = login; });
   modalTitle.textContent = login ? 'Bem-vindo de volta' : 'Crie sua conta';
   modalSubtitle.textContent = login ? 'Acesse sua conta para continuar.' : 'Preencha seus dados para começar.';
   document.querySelector('.form-switch').innerHTML = login ? 'Ainda não possui uma conta? <button type="button" data-modal="register">Criar conta</button>' : 'Já possui uma conta? <button type="button" data-modal="login">Entrar</button>';
@@ -21,27 +19,39 @@ modalButtons.forEach(button => button.addEventListener('click', () => openModal(
 document.querySelector('.modal-close').addEventListener('click', closeModal);
 backdrop.addEventListener('click', event => { if (event.target === backdrop) closeModal(); });
 document.addEventListener('keydown', event => { if (event.key === 'Escape') closeModal(); });
+const loadWalletBalance = async token => {
+  const response = await fetch(`${API_BASE_URL}/wallet/balance`, { headers: { Authorization: `Bearer ${token}` } });
+  if (!response.ok) throw new Error('Não foi possível consultar o saldo.');
+  const wallet = await response.json();
+  demoBalance = Number(wallet.total_balance ?? 0);
+  updateBalance();
+};
+
 document.querySelector('.modal form').addEventListener('submit', async event => {
   event.preventDefault();
-  const email = event.currentTarget.querySelector('input[type="email"]').value.trim();
-  const password = event.currentTarget.querySelector('input[type="password"]').value;
+  const form = event.currentTarget;
+  const email = form.querySelector('[name="email"]').value.trim();
+  const password = form.querySelector('[name="password"]').value;
   const isLogin = modalTitle.textContent === 'Bem-vindo de volta';
+  if (!email || password.length < 6) { alert('Informe um e-mail válido e uma senha com pelo menos 6 caracteres.'); return; }
 
-  if (!email || password.length < 6) {
-    alert('Informe um e-mail válido e uma senha com pelo menos 6 caracteres.');
-    return;
-  }
+  const payload = isLogin ? { email, password } : {
+    nome: form.querySelector('[name="nome"]').value.trim(),
+    email,
+    password,
+    cpf: form.querySelector('[name="cpf"]').value.trim(),
+    data_nascimento: form.querySelector('[name="data_nascimento"]').value
+  };
+  if (!isLogin && (!payload.nome || !payload.cpf || !payload.data_nascimento)) { alert('Preencha nome, CPF e data de nascimento.'); return; }
 
-  const result = isLogin
-    ? await authClient.auth.signInWithPassword({ email, password })
-    : await authClient.auth.signUp({ email, password });
-  if (result.error) {
-    alert(`Não foi possível ${isLogin ? 'entrar' : 'criar a conta'}: ${result.error.message}`);
-    return;
-  }
-
-  closeModal();
-  alert(isLogin ? 'Login realizado com sucesso!' : 'Conta criada! Verifique seu e-mail para confirmar o cadastro.');
+  try {
+    const response = await fetch(`${API_BASE_URL}/${isLogin ? 'auth/login' : 'users'}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || 'Não foi possível concluir a operação.');
+    if (isLogin && result.token) { sessionStorage.setItem('fivebet-token', result.token); await loadWalletBalance(result.token); }
+    closeModal();
+    alert(isLogin ? 'Login realizado com sucesso!' : 'Conta criada com sucesso!');
+  } catch (error) { alert(error.message); }
 });
 document.querySelectorAll('.category-tabs button').forEach(button => button.addEventListener('click', () => {
   document.querySelector('.category-tabs .selected').classList.remove('selected');
