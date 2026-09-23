@@ -39,5 +39,12 @@ document.querySelector('.modal form').addEventListener('submit', event => {
   alert(isLogin ? 'Login realizado com sucesso!' : 'Conta criada com sucesso!');
 });
 document.querySelectorAll('.category-tabs button').forEach(button => button.addEventListener('click', () => { document.querySelector('.category-tabs .selected').classList.remove('selected'); button.classList.add('selected'); }));
+document.querySelectorAll('.play-button').forEach(button => button.addEventListener('click', () => {
+  const gameName = button.closest('.game-card').querySelector('h3').textContent;
+  const symbols = ['★', '♦', '♠', '✦', '◆'];
+  const result = Array.from({ length: 3 }, () => symbols[Math.floor(Math.random() * symbols.length)]);
+  const won = result[0] === result[1] && result[1] === result[2];
+  alert(`${gameName}\n\n${result.join('   ')}\n\n${won ? 'Você ganhou uma rodada bônus!' : 'Boa tentativa! Jogue novamente.'}\nModo demonstração, sem dinheiro real.`);
+}));
 const menuToggle = document.querySelector('.menu-toggle');
 menuToggle.addEventListener('click', () => { const open = menuToggle.getAttribute('aria-expanded') === 'true'; menuToggle.setAttribute('aria-expanded', String(!open)); document.querySelector('.main-nav').style.display = open ? '' : 'flex'; document.querySelector('.main-nav').style.position = open ? '' : 'absolute'; document.querySelector('.main-nav').style.top = open ? '' : '81px'; document.querySelector('.main-nav').style.left = open ? '' : '0'; document.querySelector('.main-nav').style.right = open ? '' : '0'; document.querySelector('.main-nav').style.padding = open ? '' : '25px 8vw'; document.querySelector('.main-nav').style.background = open ? '' : '#fbfaf7'; });
