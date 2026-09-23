@@ -43,7 +43,14 @@ document.querySelector('.modal form').addEventListener('submit', async event => 
   closeModal();
   alert(isLogin ? 'Login realizado com sucesso!' : 'Conta criada! Verifique seu e-mail para confirmar o cadastro.');
 });
-document.querySelectorAll('.category-tabs button').forEach(button => button.addEventListener('click', () => { document.querySelector('.category-tabs .selected').classList.remove('selected'); button.classList.add('selected'); }));
+document.querySelectorAll('.category-tabs button').forEach(button => button.addEventListener('click', () => {
+  document.querySelector('.category-tabs .selected').classList.remove('selected');
+  button.classList.add('selected');
+  const category = button.textContent.trim().toLowerCase();
+  document.querySelectorAll('.game-card').forEach(card => {
+    card.hidden = category !== 'popular' && !card.dataset.category.includes(category);
+  });
+}));
 const walletBalance = document.querySelector('.wallet-balance strong');
 let demoBalance = Number(localStorage.getItem('fivebet-balance') || 1000);
 const formatMoney = value => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
