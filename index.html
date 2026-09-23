@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FiveBet | Jogos e entretenimento</title>
+  <meta name="description" content="FiveBet - sua central de jogos e entretenimento online.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="FiveBet início"><span>5</span>FiveBet</a>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a class="active" href="#inicio">Início</a>
+      <a href="#jogos">Jogos</a>
+      <a href="#promocoes">Promoções</a>
+      <a href="#suporte">Suporte</a>
+    </nav>
+    <div class="account-actions">
+      <button class="button button-ghost" data-modal="login">Entrar</button>
+      <button class="button button-primary" data-modal="register">Criar conta</button>
+    </div>
+    <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">A sua diversão começa aqui</p>
+        <h1>Grandes jogos.<br><em>Grandes momentos.</em></h1>
+        <p class="hero-text">Entre em um universo de entretenimento, descubra seus favoritos e jogue com uma experiência feita para você.</p>
+        <div class="hero-actions">
+          <a class="button button-primary button-large" href="#jogos">Explorar jogos <span>→</span></a>
+          <button class="button button-text" data-modal="register">Começar agora <span>↗</span></button>
+        </div>
+      </div>
+      <div class="hero-art" aria-label="Coleção de cartas e fichas FiveBet" role="img">
+        <div class="glow"></div>
+        <div class="coin coin-one">5</div>
+        <div class="coin coin-two">★</div>
+        <div class="playing-card card-back">5</div>
+        <div class="playing-card card-front"><small>FIVE</small><strong>♠</strong><small>BET</small></div>
+        <div class="chip chip-red">5</div>
+        <div class="chip chip-gold">★</div>
+      </div>
+    </section>
+
+    <section class="trust-strip" aria-label="Benefícios">
+      <div><strong>+500</strong><span>jogos disponíveis</span></div>
+      <div><strong>24/7</strong><span>suporte para você</span></div>
+      <div><strong>100%</strong><span>experiência segura</span></div>
+      <div><strong>PIX</strong><span>depósitos rápidos</span></div>
+    </section>
+
+    <section class="content-section" id="jogos">
+      <div class="section-heading"><div><p class="eyebrow">Escolha seu próximo favorito</p><h2>Jogos em destaque</h2></div><a class="view-all" href="#jogos">Ver todos <span>→</span></a></div>
+      <div class="category-tabs" role="tablist"><button class="selected">Todos</button><button>Slots</button><button>Ao vivo</button><button>Esportes</button></div>
+      <div class="game-grid">
+        <article class="game-card game-purple"><div class="game-visual"><span class="game-mark">♛</span><span class="game-label">ROYAL<br>RUSH</span><i>★</i></div><div class="game-info"><div><h3>Royal Rush</h3><p>Slot clássico</p></div><button class="play-button" aria-label="Jogar Royal Rush">▶</button></div></article>
+        <article class="game-card game-blue"><div class="game-visual"><span class="game-mark">◈</span><span class="game-label">NEON<br>FORTUNE</span><i>✦</i></div><div class="game-info"><div><h3>Neon Fortune</h3><p>Slot premium</p></div><button class="play-button" aria-label="Jogar Neon Fortune">▶</button></div></article>
+        <article class="game-card game-orange"><div class="game-visual"><span class="game-mark">♞</span><span class="game-label">GOLDEN<br>JACKPOT</span><i>✹</i></div><div class="game-info"><div><h3>Golden Jackpot</h3><p>Mais jogado</p></div><button class="play-button" aria-label="Jogar Golden Jackpot">▶</button></div></article>
+        <article class="game-card game-green"><div class="game-visual"><span class="game-mark">♦</span><span class="game-label">LUCKY<br>DIAMONDS</span><i>◆</i></div><div class="game-info"><div><h3>Lucky Diamonds</h3><p>Novidade</p></div><button class="play-button" aria-label="Jogar Lucky Diamonds">▶</button></div></article>
+      </div>
+    </section>
+
+    <section class="promo-section" id="promocoes"><div><p class="eyebrow">Oferta de boas-vindas</p><h2>Seu primeiro momento<br>vale ainda mais.</h2><p>Crie sua conta e receba benefícios exclusivos para começar sua jornada.</p></div><button class="button button-light" data-modal="register">Quero aproveitar <span>→</span></button></section>
+  </main>
+
+  <footer id="suporte"><a class="brand" href="#inicio"><span>5</span>FiveBet</a><p>Entretenimento para adultos. Jogue com responsabilidade.</p><div><a href="#suporte">Termos</a><a href="#suporte">Privacidade</a><a href="#suporte">Atendimento</a></div></footer>
+
+  <div class="modal-backdrop" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" aria-label="Fechar">×</button><p class="eyebrow">FiveBet</p><h2 id="modal-title">Crie sua conta</h2><p class="modal-subtitle">Preencha seus dados para começar.</p><form><label>E-mail<input type="email" placeholder="voce@email.com" required></label><label>Senha<input type="password" placeholder="••••••••" required></label><button class="button button-primary button-large" type="submit">Continuar <span>→</span></button></form><p class="form-switch">Já possui uma conta? <button type="button" data-modal="login">Entrar</button></p></section></div>
+  <script src="script.js"></script>
+</body>
+</html>
