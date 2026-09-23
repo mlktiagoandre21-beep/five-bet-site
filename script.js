@@ -1,4 +1,8 @@
 const backdrop = document.querySelector('.modal-backdrop');
+const authClient = window.supabase.createClient(
+  'https://kystaykkobgfqbnrhqvb.supabase.co',
+  'sb_publishable_boR0XAkdBRTdZvfto2GlYQ_vOEgh8bz'
+);
 const modalTitle = document.querySelector('#modal-title');
 const modalSubtitle = document.querySelector('.modal-subtitle');
 const modalButtons = document.querySelectorAll('[data-modal]');
@@ -17,26 +21,27 @@ modalButtons.forEach(button => button.addEventListener('click', () => openModal(
 document.querySelector('.modal-close').addEventListener('click', closeModal);
 backdrop.addEventListener('click', event => { if (event.target === backdrop) closeModal(); });
 document.addEventListener('keydown', event => { if (event.key === 'Escape') closeModal(); });
-document.querySelector('.modal form').addEventListener('submit', event => {
+document.querySelector('.modal form').addEventListener('submit', async event => {
   event.preventDefault();
   const email = event.currentTarget.querySelector('input[type="email"]').value.trim();
   const password = event.currentTarget.querySelector('input[type="password"]').value;
   const isLogin = modalTitle.textContent === 'Bem-vindo de volta';
-  const storedUser = JSON.parse(localStorage.getItem('fivebet-user') || 'null');
 
   if (!email || password.length < 6) {
     alert('Informe um e-mail válido e uma senha com pelo menos 6 caracteres.');
     return;
   }
 
-  if (isLogin && (!storedUser || storedUser.email !== email || storedUser.password !== password)) {
-    alert('Conta não encontrada. Crie sua conta primeiro neste navegador.');
+  const result = isLogin
+    ? await authClient.auth.signInWithPassword({ email, password })
+    : await authClient.auth.signUp({ email, password });
+  if (result.error) {
+    alert(`Não foi possível ${isLogin ? 'entrar' : 'criar a conta'}: ${result.error.message}`);
     return;
   }
 
-  localStorage.setItem('fivebet-user', JSON.stringify({ email, password }));
   closeModal();
-  alert(isLogin ? 'Login realizado com sucesso!' : 'Conta criada com sucesso!');
+  alert(isLogin ? 'Login realizado com sucesso!' : 'Conta criada! Verifique seu e-mail para confirmar o cadastro.');
 });
 document.querySelectorAll('.category-tabs button').forEach(button => button.addEventListener('click', () => { document.querySelector('.category-tabs .selected').classList.remove('selected'); button.classList.add('selected'); }));
 const walletBalance = document.querySelector('.wallet-balance strong');
